@@ -1,0 +1,450 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+/* Define Neon Colors */
+:root {
+  --neon-cyan: #00F7FF;
+  --neon-purple: #8000FF;
+  --neon-dark: #1A1A1A; /* Darker background for contrast */
+}
+
+/* Admin Container */
+.admin-container {
+  min-height: 100vh;
+  background: #0C0C0C; /* Obsidian black */
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+/* Neon Background Effect */
+.admin-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-green), var(--neon-magenta), var(--neon-yellow));
+  opacity: 0.1;
+  animation: neonFlow 12s ease infinite;
+}
+
+/* Admin Content */
+.admin-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+  animation: slideIn 1s ease-out;
+}
+
+/* Admin Title */
+.admin-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--neon-green);
+  margin-bottom: 40px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Form Title */
+.form-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.8rem;
+  color: #FFFFFF; /* White for form */
+  margin-bottom: 25px;
+  text-shadow: 0 0 5px var(--neon-magenta);
+}
+
+/* Section Title */
+.section-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  color: var(--neon-cyan);
+  margin: 40px 0 20px;
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+/* Admin Form */
+.admin-form {
+  background: rgba(12, 12, 12, 0.9); /* Semi-transparent obsidian */
+  padding: 20px; /* Reduced from 30px */
+  border-radius: 12px;
+  box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-magenta);
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Reduced from 20px */
+  max-width: 500px;
+  margin: 0 auto 40px;
+  border: 1px solid #C0C0C0; /* Silver */
+  color: #FFFFFF; /* Default all text in form to white */
+}
+
+/* Form Group */
+.form-group {
+  position: relative;
+}
+
+/* Form Input */
+.form-group input {
+  width: 100%;
+  padding: 10px 15px; /* Reduced padding from 12px */
+  background: rgba(255, 255, 255, 0.1); /* Subtle white background for contrast */
+  border: 2px solid #C0C0C0; /* Silver */
+  border-radius: 8px;
+  color: #FFFFFF !important; /* White text, enforced */
+  font-size: 0.9rem; /* Reduced from 1rem */
+  font-family: "Poppins", sans-serif;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Ensure white text for all input states */
+.form-group input:focus,
+.form-group input:active,
+.form-group input::selection {
+  color: #FFFFFF !important;
+}
+
+/* Override browser autofill and input styles */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:active {
+  -webkit-text-fill-color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #C0C0C0;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.1) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Override Firefox-specific styles */
+.form-group input:-moz-ui-invalid,
+.form-group input:-moz-ui-valid {
+  color: #FFFFFF !important;
+}
+
+.form-group input:focus {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 12px var(--neon-yellow), 0 0 20px var(--neon-yellow);
+}
+
+/* Floating Label */
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #FFFFFF; /* White default */
+  font-size: 0.9rem; /* Reduced from 1rem */
+  font-family: "Poppins", sans-serif;
+  font-weight: 500; /* Slightly bolder for visibility */
+  pointer-events: none;
+  transition: all 0.3s ease;
+  padding: 0 6px;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: 0.75rem; /* Reduced from 0.85rem */
+  color: #FFFFFF; /* White when active/filled */
+  background: var(--neon-dark); /* Solid dark background for contrast */
+  text-shadow: 0 0 5px var(--neon-cyan); /* Retain neon glow */
+  padding: 0 8px; /* Slightly more padding for readability */
+}
+
+/* Form Buttons */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Auth Button */
+.auth-button {
+  position: relative;
+  padding: 10px 25px; /* Reduced from 12px 30px */
+  background: transparent;
+  color: #FFFFFF; /* White text */
+  font-size: 0.9rem; /* Reduced from 1rem */
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.3s, background 0.3s, box-shadow 0.3s;
+  letter-spacing: 2px;
+}
+
+.auth-button:hover {
+  background: var(--neon-magenta);
+  color: #FFFFFF;
+  box-shadow: 0 0 15px var(--neon-magenta), 0 0 30px var(--neon-magenta), 0 0 45px var(--neon-magenta);
+}
+
+.auth-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.auth-button span {
+  position: absolute;
+  display: block;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan));
+}
+
+.auth-button span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  animation: borderGlow1 1.5s linear infinite;
+}
+
+.auth-button span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  animation: borderGlow2 1.5s linear infinite;
+  animation-delay: 0.375s;
+}
+
+.auth-button span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  animation: borderGlow3 1.5s linear infinite;
+  animation-delay: 0.75s;
+}
+
+.auth-button span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  animation: borderGlow4 1.5s linear infinite;
+  animation-delay: 1.125s;
+}
+
+/* Cancel Button */
+.cancel-button {
+  border-color: var(--neon-magenta);
+  color: #FFFFFF; /* White text */
+}
+
+.cancel-button:hover {
+  background: var(--neon-cyan);
+  color: #0C0C0C; /* Black for contrast on hover */
+  box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan);
+}
+
+.cancel-button span {
+  background: linear-gradient(90deg, transparent, var(--neon-magenta));
+}
+
+/* Package List */
+.package-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px; /* Reduced from 25px */
+  margin-top: 20px;
+  padding: 0 20px;
+  min-height: 600px; /* Increased to show multiple cards */
+  overflow-y: auto; /* Scrollable if content exceeds height */
+}
+
+/* Package Item */
+.package-item {
+  background: rgba(12, 12, 12, 0.9);
+  padding: 15px; /* Reduced from 20px */
+  border-radius: 12px;
+  box-shadow: 0 0 10px var(--neon-purple);
+  border: 1px solid var(--neon-purple);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.package-item:hover {
+  transform: translateY(-5px);
+}
+
+.package-item h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem; /* Reduced from 1.5rem */
+  color: var(--neon-cyan);
+  margin-bottom: 8px; /* Reduced from 10px */
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.package-item p {
+  font-size: 0.9rem; /* Reduced from 0.95rem */
+  color: #C0C0C0; /* Silver */
+  margin: 4px 0; /* Reduced from 5px */
+  font-family: "Poppins", sans-serif;
+}
+
+.package-image {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 8px;
+  margin: 8px 0; /* Reduced from 10px */
+  box-shadow: 0 0 10px var(--neon-magenta);
+}
+
+/* No Packages */
+.no-packages {
+  font-size: 1.2rem;
+  color: #C0C0C0; /* Silver */
+  text-shadow: 0 0 5px #C0C0C0;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Error Message */
+.error-message {
+  color: #FF4444; /* Bright red */
+  font-size: 1rem;
+  margin: 20px 0;
+  text-shadow: 0 0 5px #FF4444;
+  font-family: "Poppins", sans-serif;
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Refresh and Logout Buttons */
+.refresh-button {
+  display: inline-block;
+  margin: 20px 10px;
+}
+
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* Animations */
+@keyframes neonFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green); }
+  50% { text-shadow: 0 0 20px var(--neon-green), 0 0 30px var(--neon-green); }
+}
+
+@keyframes borderGlow1 {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+@keyframes borderGlow2 {
+  0% { top: -100%; }
+  50%, 100% { top: 100%; }
+}
+
+@keyframes borderGlow3 {
+  0% { right: -100%; }
+  50%, 100% { right: 100%; }
+}
+
+@keyframes borderGlow4 {
+  0% { bottom: -100%; }
+  50%, 100% { bottom: 100%; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-title {
+    font-size: 2.2rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .admin-form {
+    padding: 15px; /* Further reduced */
+    max-width: 90%;
+  }
+
+  .package-list {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+    min-height: 400px; /* Adjusted for smaller screens */
+  }
+
+  .logout-button {
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-title {
+    font-size: 1.8rem;
+  }
+
+  .admin-content {
+    padding: 15px;
+  }
+
+  .package-item {
+    padding: 12px; /* Further reduced */
+  }
+
+  .package-image {
+    max-width: 120px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .package-list {
+    min-height: 300px; /* Adjusted for mobile */
+  }
+}

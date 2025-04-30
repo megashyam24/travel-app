@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TripTale - Your Ultimate Smart Travel Recommendation Guide">
+    <meta name="keywords" content="Travel, recommendation, India, tourism, Smartgenie">
+    <meta name="author" content="Your Name">
+    <title>TripTale - Welcome</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+        }
+
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+
+        .center-div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 700px;
+            width: 90%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border: 2px solid #03e9f4;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(3, 233, 244, 0.5), inset 0 0 10px rgba(3, 233, 244, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .center-div h1 {
+            font-size: 2.8em;
+            color: #03e9f4;
+            margin-bottom: 20px;
+        }
+
+        .center-div p {
+            font-size: 1.3em;
+            color: #bbb;
+            margin-bottom: 30px;
+            animation: fadeInText 2s ease-in-out;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            color: #fff;
+            text-decoration: none;
+            background: #ff4444;
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        .btn:hover {
+            background: #ff6666;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 1);
+            transform: scale(1.1);
+        }
+
+        /* Particle Effect */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #03e9f4;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: sparkle 3s infinite;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 30%; left: 80%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { top: 60%; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(4) { top: 50%; left: 70%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { top: 80%; left: 30%; animation-delay: 2s; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translate(-50%, -60%); }
+            100% { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 20px rgba(255, 68, 68, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.7); }
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.5); }
+            100% { opacity: 0.7; transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .center-div {
+                padding: 20px;
+                width: 95%;
+            }
+            .center-div h1 {
+                font-size: 2em;
+            }
+            .center-div p {
+                font-size: 1em;
+            }
+            .btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+            .particle {
+                width: 3px;
+                height: 3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .center-div h1 {
+                font-size: 1.5em;
+            }
+            .center-div p {
+                font-size: 0.9em;
+            }
+            .btn {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay loop muted>
+            <source src="/static/Assets/videoBg.mp4" type="video/mp4">
+            Your browser does not support this video
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="center-div">
+        <h1>Smartgenie – Your Ultimate Travel Guide!</h1>
+        <p>Can't figure out the perfect destination? Discover personalized travel recommendations with TripTale.</p>
+        <a href="/recommendation" class="btn">Get Recommendations</a>
+    </div>
+</body>
+</html>

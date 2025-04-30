@@ -1,0 +1,227 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;600&display=swap");
+
+/* Login Container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #0A1A2F, #1E3A5F, #0A1A2F);
+  background-size: 300% 300%;
+  animation: gradientRotate 20s ease infinite;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Login Content */
+.login-content {
+  background: #fffdf8;
+  padding: 70px 45px;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+  border: 1.5px solid #dca3b5;
+}
+
+/* Login Title */
+.login-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: #0a1a2f;
+  margin-bottom: 36px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Login Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Form Group */
+.form-group {
+  position: relative;
+}
+
+/* Login Input */
+.login-form .login-input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #000000 !important; /* Black text, enforced */
+  -webkit-text-fill-color: #000000 !important; /* Ensure autofill text is black */
+  background: #ffffff !important; /* White background */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Ensure black text for all input states */
+.login-form .login-input:hover,
+.login-form .login-input:focus,
+.login-form .login-input:active,
+.login-form .login-input::selection {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Override browser autofill styles */
+.login-form .login-input:-webkit-autofill,
+.login-form .login-input:-webkit-autofill:hover,
+.login-form .login-input:-webkit-autofill:focus,
+.login-form .login-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+  background: #ffffff !important;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Override Firefox-specific styles */
+.login-form .login-input:-moz-ui-invalid,
+.login-form .login-input:-moz-ui-valid {
+  color: #000000 !important;
+  -moz-text-fill-color: #000000 !important;
+}
+
+/* Fallback for edge cases */
+.login-form .login-input:not(:focus):not(:hover) {
+  color: #333333 !important; /* Dark gray fallback */
+}
+
+.login-form .login-input:focus {
+  border-color: #dca3b5;
+  box-shadow: 0 0 10px rgba(220, 163, 181, 0.3);
+  transform: scale(1.02);
+}
+
+/* Floating Label */
+.form-group label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #888;
+  background: #fffdf8;
+  padding: 0 6px;
+  transition: 0.3s ease;
+  pointer-events: none;
+}
+
+.login-input:focus + label,
+.login-input:not(:placeholder-shown) + label {
+  top: -12px;
+  left: 14px;
+  font-size: 0.85rem;
+  color: #dca3b5;
+}
+
+/* Login Button */
+.login-button {
+  padding: 14px 38px;
+  background: linear-gradient(to right, #dca3b5, #b37787);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  animation: pulse 3s infinite ease-in-out;
+}
+
+.login-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(220, 163, 181, 0.5);
+}
+
+.login-button:disabled {
+  background: #ccc;
+  color: #888;
+  cursor: not-allowed;
+  animation: none;
+}
+
+/* Toggle Text */
+.toggle-text {
+  margin-top: 28px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Toggle Link */
+.toggle-link {
+  color: #2e8b57;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.toggle-link:hover {
+  color: #3cb371;
+  transform: scale(1.1);
+  text-decoration: underline;
+}
+
+/* Error Message */
+.error-message {
+  color: #dc143c;
+  font-size: 0.92rem;
+  margin-top: 18px;
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Animations */
+@keyframes gradientRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-content {
+    padding: 50px 30px;
+  }
+  .login-title {
+    font-size: 2.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-title {
+    font-size: 1.7rem;
+  }
+  .toggle-text {
+    font-size: 0.85rem;
+  }
+}

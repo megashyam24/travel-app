@@ -1,0 +1,266 @@
+/* Bookings Page */
+.bookings-page {
+  padding: 20px;
+  padding-bottom: 60px; /* Space for fixed footer */
+  text-align: center;
+  position: relative; /* For absolute-positioned clear-history-button */
+  min-height: 100vh; /* Ensure page fills viewport */
+  box-sizing: border-box;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+/* Page Description */
+.page-description {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Clear History Button */
+.clear-history-button {
+  background: #dc143c;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 6px 12px;
+  width: 120px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.clear-history-button:hover {
+  background: #b0122f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(220, 20, 60, 0.4);
+}
+
+.clear-history-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(220, 20, 60, 0.2);
+}
+
+/* Packages Container */
+.packages-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Booking Card */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Image */
+.card-img {
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Card Body */
+.card-body {
+  padding: 15px;
+}
+
+/* Card Title */
+.card-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+/* Card Text */
+.card-text {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+/* Bookings Container */
+.bookings-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Booking Card */
+.booking-card {
+  flex: 0 0 calc(33.33% - 20px);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Card Image */
+.card-img {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Card Body */
+.card-body {
+  text-align: center;
+}
+
+/* No Bookings Message */
+.no-bookings {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .booking-card {
+    flex: 0 0 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .bookings-container {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-card {
+    flex: 0 0 100%;
+  }
+  .bookings-container {
+    max-width: 100%;
+  }
+}
+/* Error Message */
+.error-message {
+  font-size: 1.1rem;
+  margin: 20px 0;
+  color: #dc143c; /* Match clear-history-button for consistency */
+}
+/* Add to existing ExplorePackage.css */
+.date-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.date-inputs div {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-inputs label {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.date-inputs input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.date-inputs input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+@media (max-width: 480px) {
+  .date-inputs label {
+    font-size: 0.9rem;
+  }
+
+  .date-inputs input {
+    font-size: 0.9rem;
+    padding: 6px;
+  }
+}
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #333;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 0;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  z-index: 1000; /* Ensure footer is above other content */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-description {
+    font-size: 1rem;
+  }
+
+  .clear-history-button {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    width: 100px;
+    top: 15px;
+    right: 15px;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .footer {
+    font-size: 0.8rem;
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .page-description {
+    font-size: 0.9rem;
+  }
+
+  .clear-history-button {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    width: 90px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .footer {
+    font-size: 0.7rem;
+    padding: 6px 0;
+  }
+}

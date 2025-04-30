@@ -1,0 +1,33 @@
+/* CardSelected.css */
+
+/* Style for selected card */
+.selected-card {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    border: 2px solid #ff5733; /* A bright border to highlight */
+    background-color: #fefefe; /* Light background color */
+  }
+  
+  /* Add some unique styling for the image */
+  .selected-card .card-img {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title styling */
+  .selected-card .card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ff5733;
+    text-transform: uppercase;
+  }
+  
+  /* Price styling */
+  .selected-card .new-price {
+    font-size: 1.4em;
+    color: #ff5733;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
