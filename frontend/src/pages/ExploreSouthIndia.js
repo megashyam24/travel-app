@@ -55,7 +55,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
       throw new Error('No refresh token found. Please log in again.');
     }
     try {
-      const response = await axios.post('http://localhost:5002/api/auth/refresh', { refreshToken });
+      const response = await axios.post('https://travel-app-l3x3.onrender.com/api/auth/refresh', { refreshToken });
       const newToken = response.data.token;
       localStorage.setItem('token', newToken);
       console.log('New access token obtained:', newToken.substring(0, 10) + '...');
@@ -78,7 +78,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5002/api/bookings', { 
+      const response = await axios.post('https://travel-app-l3x3.onrender.com/api/bookings', { 
         packageId,
         travelDate,
         returnDate 
@@ -93,7 +93,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
       if (err.response?.status === 403 && err.response?.data?.message.includes('Token expired')) {
         try {
           token = await refreshAccessToken();
-          const retryResponse = await axios.post('http://localhost:5002/api/bookings', { 
+          const retryResponse = await axios.post('https://travel-app-l3x3.onrender.com/api/bookings', { 
             packageId,
             travelDate,
             returnDate 
@@ -117,7 +117,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
 
   const fetchPackages = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:5002/api/auth/packages');
+      const res = await axios.get('https://travel-app-l3x3.onrender.com/api/auth/packages');
       if (res.data && Array.isArray(res.data)) {
         const southIndiaPackages = res.data.filter(pkg =>
           pkg.place.toLowerCase().includes('south') ||
