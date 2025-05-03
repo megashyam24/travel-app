@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request
 from flask_cors import CORS
 import pandas as pd
@@ -5,33 +6,52 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 import numpy as np
 import logging
+# Optional MongoDB integration
+# from pymongo import MongoClient
 
 # Initialize app
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": os.environ.get('FRONTEND_URL', 'http://localhost:3000')}})
 
 # Configure logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Base directory for file paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Optional MongoDB setup (commented out; uncomment to use)
+"""
+try:
+    logger.info("Connecting to MongoDB")
+    client = MongoClient(os.environ.get('MONGO_URI'))
+    db = client['travel-app']
+    destinations_collection = db['destinations']
+    userhistory_collection = db['userhistory']
+    final_collection = db['final']
+except Exception as e:
+    logger.error(f"Error connecting to MongoDB: {str(e)}")
+    raise
+"""
 
 # Load datasets and models
 features = ['Name_x', 'State', 'Type', 'BestTimeToVisit', 'Preferences', 'Gender', 'NumberOfAdults', 'NumberOfChildren']
 try:
-    logger.debug("Loading label_encoders.pkl")
-    label_encoders = pickle.load(open('label_encoders.pkl', 'rb'))
-    logger.debug("Loading model.pkl")
-    model = pickle.load(open('model.pkl', 'rb'))
-    logger.debug("Loading CSVs")
-    destinations_df = pd.read_csv("Expanded_Destinations.csv")
-    userhistory_df = pd.read_csv("Final_Updated_Expanded_UserHistory.csv")
-    df = pd.read_csv("final_df.csv")
+    logger.info("Loading label_encoders.pkl")
+    label_encoders = pickle.load(open(os.path.join(BASE_DIR, 'label_encoders.pkl'), 'rb'))
+    logger.info("Loading model.pkl")
+    model = pickle.load(open(os.path.join(BASE_DIR, 'model.pkl'), 'rb'))
+    logger.info("Loading CSVs")
+    destinations_df = pd.read_csv(os.path.join(BASE_DIR, 'Expanded_Destinations.csv'))
+    userhistory_df = pd.read_csv(os.path.join(BASE_DIR, 'Final_Updated_Expanded_UserHistory.csv'))
+    df = pd.read_csv(os.path.join(BASE_DIR, 'final_df.csv'))
 except Exception as e:
     logger.error(f"Error loading files: {str(e)}")
     raise
 
 # Create user-item matrix for collaborative filtering
 try:
-    logger.debug("Creating user-item matrix")
+    logger.info("Creating user-item matrix")
     user_item_matrix = userhistory_df.pivot(index='UserID', columns='DestinationID', values='ExperienceRating')
     user_item_matrix.fillna(0, inplace=True)
     user_similarity = cosine_similarity(user_item_matrix)
@@ -42,7 +62,7 @@ except Exception as e:
 # Function to recommend destinations based on user similarity (fallback if no user_id)
 def collaborative_recommend(destinations_df, user_item_matrix, num_recommendations=5):
     try:
-        logger.debug("Running collaborative filtering")
+        logger.info("Running collaborative filtering")
         avg_ratings = user_item_matrix.mean(axis=0)
         recommended_destinations_ids = avg_ratings.sort_values(ascending=False).head(num_recommendations).index
         recommendations = destinations_df[destinations_df['DestinationID'].isin(recommended_destinations_ids)][
@@ -50,7 +70,7 @@ def collaborative_recommend(destinations_df, user_item_matrix, num_recommendatio
         ]
         # Remove duplicates by Name, keeping the first (highest Popularity after sorting)
         recommendations = recommendations.drop_duplicates(subset=['Name'], keep='first')
-        logger.debug(f"Recommendations generated: {recommendations.shape}, unique names: {recommendations['Name'].nunique()}")
+        logger.info(f"Recommendations generated: {recommendations.shape}, unique names: {recommendations['Name'].nunique()}")
         return recommendations
     except Exception as e:
         logger.error(f"Error in collaborative_recommend: {str(e)}")
@@ -59,7 +79,7 @@ def collaborative_recommend(destinations_df, user_item_matrix, num_recommendatio
 # Prediction system
 def recommend_destinations(user_input, model, label_encoders, features, data):
     try:
-        logger.debug(f"Processing user input: {user_input}")
+        logger.info(f"Processing user input: {user_input}")
         encoded_input = {}
         for feature in features:
             if feature in label_encoders:
@@ -70,9 +90,9 @@ def recommend_destinations(user_input, model, label_encoders, features, data):
             else:
                 encoded_input[feature] = user_input[feature]
         input_df = pd.DataFrame([encoded_input])
-        logger.debug("Predicting popularity")
+        logger.info("Predicting popularity")
         predicted_popularity = model.predict(input_df)[0]
-        logger.debug(f"Predicted popularity: {predicted_popularity}")
+        logger.info(f"Predicted popularity: {predicted_popularity}")
         return predicted_popularity
     except Exception as e:
         logger.error(f"Error in recommend_destinations: {str(e)}")
@@ -93,7 +113,7 @@ def recommendation():
 def recommend():
     if request.method == "POST":
         try:
-            logger.debug("Received form submission")
+            logger.info("Received form submission")
             user_input = {
                 'Name_x': request.form['name'],
                 'Type': request.form['type'],
@@ -104,7 +124,7 @@ def recommend():
                 'NumberOfAdults': int(request.form['adults']),
                 'NumberOfChildren': int(request.form['children']),
             }
-            logger.debug(f"User input: {user_input}")
+            logger.info(f"User input: {user_input}")
             recommended_destinations = collaborative_recommend(destinations_df, user_item_matrix)
             if recommended_destinations.empty:
                 logger.warning("No recommendations generated")
@@ -113,7 +133,7 @@ def recommend():
             predicted_popularity = recommend_destinations(user_input, model, label_encoders, features, df)
             # Extract scalar from NumPy array and format to 2 decimal places without round
             predicted_popularity_scalar = f"{float(predicted_popularity.item()):.2f}" if isinstance(predicted_popularity, np.ndarray) else f"{float(predicted_popularity):.2f}"
-            logger.debug(f"Rendering template with predicted_popularity: {predicted_popularity_scalar}")
+            logger.info(f"Rendering template with predicted_popularity: {predicted_popularity_scalar}")
             return render_template('recommendation.html', 
                                  recommended_destinations=recommended_destinations.to_dict('records'),
                                  predicted_popularity=predicted_popularity_scalar,
@@ -125,4 +145,4 @@ def recommend():
     return render_template('recommendation.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
