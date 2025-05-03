@@ -22,7 +22,7 @@ const Admin = ({ handleLogout }) => {
 
   const fetchPackages = async () => {
     try {
-      const res = await fetch('http://localhost:5002/api/auth/packages');
+      const res = await fetch('https://travel-app-l3x3.onrender.com/api/auth/packages');
       if (!res.ok) {
         const errorText = await res.text();
         throw new Error(`HTTP error! Status: ${res.status} - ${res.statusText} - ${errorText}`);
@@ -44,8 +44,8 @@ const Admin = ({ handleLogout }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = editMode
-      ? `http://localhost:5002/api/auth/update-package/${editingId}`
-      : 'http://localhost:5002/api/auth/add-package';
+      ? `https://travel-app-l3x3.onrender.com/api/auth/update-package/${editingId}`
+      : 'https://travel-app-l3x3.onrender.com/api/auth/add-package';
     const method = editMode ? 'PUT' : 'POST';
 
     try {
