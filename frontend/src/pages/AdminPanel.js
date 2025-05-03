@@ -23,7 +23,7 @@ const AdminPanel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/packages', formData, {
+      await axios.post('https://travel-app-l3x3.onrender.com/api/packages', formData, {
         headers: { 'Content-Type': 'application/json' }
       });
       setMessage('Package added successfully!');
