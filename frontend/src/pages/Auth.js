@@ -28,7 +28,7 @@ function Admin() {
         navigate('/auth');
         return;
       }
-      const res = await axios.get('http://localhost:5002/api/auth/packages', {
+      const res = await axios.get('https://travel-app-l3x3.onrender.com/api/auth/packages', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data && Array.isArray(res.data)) {
@@ -65,7 +65,7 @@ function Admin() {
         setError('Please fill all required fields.');
         return;
       }
-      const res = await axios.post('http://localhost:5002/api/auth/packages', newPackage, {
+      const res = await axios.post('https://travel-app-l3x3.onrender.com/api/auth/packages', newPackage, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Add package response:', res.data);
@@ -106,7 +106,7 @@ function Admin() {
         setError('No package ID found for editing.');
         return;
       }
-      const res = await axios.put(`http://localhost:5002/api/auth/packages/${editPackage._id}`, editPackage, {
+      const res = await axios.put(`https://travel-app-l3x3.onrender.com/api/auth/packages/${editPackage._id}`, editPackage, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Edit package response:', res.data);
@@ -129,7 +129,7 @@ function Admin() {
           navigate('/auth');
           return;
         }
-        const res = await axios.delete(`http://localhost:5002/api/auth/packages/${id}`, {
+        const res = await axios.delete(`https://travel-app-l3x3.onrender.com/api/auth/packages/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log('Delete package response:', res.data);
