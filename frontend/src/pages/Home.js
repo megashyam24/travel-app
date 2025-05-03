@@ -21,7 +21,7 @@ const Home = ({ handleLogout }) => {
         navigate('/auth');
         return;
       }
-      const res = await fetch('http://localhost:5002/api/auth/packages', {
+      const res = await fetch('https://travel-app-l3x3.onrender.com/api/auth/packages', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
