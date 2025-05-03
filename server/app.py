@@ -11,7 +11,7 @@ import logging
 
 # Initialize app
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": os.environ.get('FRONTEND_URL', 'http://localhost:3000')}})
+CORS(app, resources={r"/*": {"origins": os.environ.get('FRONTEND_URL', 'https://travel-app-1-1njn.onrender.com')}})
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
