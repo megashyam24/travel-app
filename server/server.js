@@ -8,27 +8,33 @@ const nodemailer = require('nodemailer');
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-
 const app = express();
 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cors({ 
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', 
+  credentials: true 
+}));
 app.use(express.json());
 
 const { MONGO_URI, JWT_SECRET, PORT, GMAIL_APP_PASSWORD } = process.env;
 const port = PORT || 5002;
 
+// Log environment variables for debugging (remove in production)
+console.log('Environment variables:', {
+  MONGO_URI,
+  JWT_SECRET,
+  PORT,
+  GMAIL_APP_PASSWORD: GMAIL_APP_PASSWORD ? '[REDACTED]' : undefined,
+});
+
 // Nodemailer setup
-if (!process.env.GMAIL_APP_PASSWORD) {
-  console.error('GMAIL_APP_PASSWORD is not set');
-  process.exit(1);
-}
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
-  secure: true,
+  secure: true, // Use SSL
   auth: {
     user: 'info.triptale@gmail.com',
-    pass: process.env.GMAIL_APP_PASSWORD,
+    pass: GMAIL_APP_PASSWORD || 'pwjw eeqj xeql rrha',
   },
 });
 
@@ -39,11 +45,10 @@ transporter.verify((error, success) => {
 });
 
 // MongoDB connection
-if (!process.env.MONGO_URI) {
-  console.error('MONGO_URI is not set');
-  process.exit(1);
-}
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(MONGO_URI || 'mongodb://localhost:27017/travel-app', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => {
     console.error('MongoDB connection error:', err.message);
@@ -94,7 +99,7 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ message: 'Authentication token required' });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
+  jwt.verify(token, JWT_SECRET || 'e238b851cbecf3cd9efaf6d5a4bc8b67734d25aa6c1563ec2362c54f56b586f3', (err, user) => {
     if (err) {
       console.log('Token verification failed:', err.message, 'Token:', token.substring(0, 10) + '...');
       return res.status(403).json({ 
@@ -167,7 +172,7 @@ app.post('/api/auth/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ email, password: hashedPassword });
     await user.save();
-    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET || 'e238b851cbecf3cd9efaf6d5a4bc8b67734d25aa6c1563ec2362c54f56b586f3', { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user._id }, JWT_SECRET + '_refresh', { expiresIn: '7d' });
     res.json({ token, refreshToken, email });
   } catch (err) {
@@ -184,7 +189,7 @@ app.post('/api/auth/login', async (req, res) => {
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({ msg: 'Invalid credentials' });
     }
-    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET || 'e238b851cbecf3cd9efaf6d5a4bc8b67734d25aa6c1563ec2362c54f56b586f3', { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user._id }, JWT_SECRET + '_refresh', { expiresIn: '7d' });
     res.json({ token, refreshToken, email });
   } catch (err) {
@@ -336,7 +341,7 @@ app.get('/api/test-email', async (req, res) => {
   try {
     await transporter.sendMail({
       from: '"TripTale" <info.triptale@gmail.com>',
-      to: 'test@example.com',
+      to: 'test@example.com', // Replace with a valid test email
       subject: 'Test Email',
       html: '<p>This is a test email from TripTale.</p>',
     });
@@ -347,12 +352,6 @@ app.get('/api/test-email', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-// Validate environment variables
-if (!process.env.JWT_SECRET) {
-  console.error('JWT_SECRET is not set');
-  process.exit(1);
-}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
