@@ -29,7 +29,7 @@ const Login = ({ setIsAuthenticated }) => {
     const payload = isRegistering ? { email, password, confirmPassword } : { email, password };
 
     try {
-      const response = await axios.post(`http://localhost:5002${endpoint}`, payload);
+      const response = await axios.post(`https://travel-app-l3x3.onrender.com${endpoint}`, payload);
       const { token, refreshToken, email: userEmail, isAdmin } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);
