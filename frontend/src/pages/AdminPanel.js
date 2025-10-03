@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../App.css';
 
 const AdminPanel = () => {
+  const BACKEND_URL = "https://travel-app-bv82.onrender.com"; // ✅ New backend URL
+
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -23,7 +25,7 @@ const AdminPanel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://travel-app-l3x3.onrender.com/api/packages', formData, {
+      await axios.post(`${BACKEND_URL}/api/packages`, formData, {
         headers: { 'Content-Type': 'application/json' }
       });
       setMessage('Package added successfully!');
@@ -41,8 +43,8 @@ const AdminPanel = () => {
       // Refresh packages on Home page
       window.location.href = '/home';
     } catch (err) {
-      setMessage('Error adding package: ' + err.message);
-      console.error('Error:', err.message);
+      setMessage('Error adding package: ' + (err.response?.data?.msg || err.message));
+      console.error('Error:', err.response?.data || err.message);
     }
   };
 
@@ -87,10 +89,7 @@ const AdminPanel = () => {
           <input type="number" step="0.0001" name="longitude" value={formData.longitude} onChange={handleChange} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required />
         </div>
         <button type="submit" className="auth-button" style={{ marginTop: '20px' }}>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span><span></span>
           Add Package
         </button>
         {message && <p style={{ color: message.includes('Error') ? '#ff4444' : '#03e9f4', marginTop: '10px' }}>{message}</p>}
