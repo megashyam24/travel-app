@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Admin.css';
 
 const Admin = ({ handleLogout }) => {
+  const BACKEND_URL = "https://travel-app-bv82.onrender.com"; // ✅ New backend URL
+
   const [packages, setPackages] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -22,7 +24,7 @@ const Admin = ({ handleLogout }) => {
 
   const fetchPackages = async () => {
     try {
-      const res = await fetch('https://travel-app-l3x3.onrender.com/api/auth/packages');
+      const res = await fetch(`${BACKEND_URL}/api/auth/packages`);
       if (!res.ok) {
         const errorText = await res.text();
         throw new Error(`HTTP error! Status: ${res.status} - ${res.statusText} - ${errorText}`);
@@ -44,8 +46,8 @@ const Admin = ({ handleLogout }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = editMode
-      ? `https://travel-app-l3x3.onrender.com/api/auth/update-package/${editingId}`
-      : 'https://travel-app-l3x3.onrender.com/api/auth/add-package';
+      ? `${BACKEND_URL}/api/auth/update-package/${editingId}`
+      : `${BACKEND_URL}/api/auth/add-package`;
     const method = editMode ? 'PUT' : 'POST';
 
     try {
