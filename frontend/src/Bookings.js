@@ -9,6 +9,7 @@ const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const BACKEND_URL = 'https://travel-app-bv82.onrender.com'; // ✅ Updated backend URL
 
   const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -16,7 +17,7 @@ const Bookings = () => {
       throw new Error('No refresh token found. Please log in again.');
     }
     try {
-      const response = await axios.post('https://travel-app-l3x3.onrender.com/api/auth/refresh', { refreshToken });
+      const response = await axios.post(`${BACKEND_URL}/api/auth/refresh`, { refreshToken });
       const newToken = response.data.token;
       localStorage.setItem('token', newToken);
       console.log('New access token obtained:', newToken.substring(0, 10) + '...');
@@ -38,7 +39,7 @@ const Bookings = () => {
     }
 
     try {
-      const response = await axios.get('https://travel-app-l3x3.onrender.com/api/bookings/user', {
+      const response = await axios.get(`${BACKEND_URL}/api/bookings/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Bookings fetched:', response.data);
@@ -49,7 +50,7 @@ const Bookings = () => {
       if (err.response?.status === 403 && err.response?.data?.message.includes('Token expired')) {
         try {
           token = await refreshAccessToken();
-          const retryResponse = await axios.get('https://travel-app-l3x3.onrender.com/api/bookings/user', {
+          const retryResponse = await axios.get(`${BACKEND_URL}/api/bookings/user`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           console.log('Retry bookings fetch:', retryResponse.data);
@@ -63,7 +64,7 @@ const Bookings = () => {
         setError(err.response?.data?.message || 'Failed to fetch bookings.');
       }
     }
-  }, [navigate]);
+  }, [navigate, BACKEND_URL]);
 
   const clearBookings = async () => {
     if (!window.confirm('Are you sure you want to clear all your booking history? This action cannot be undone.')) {
@@ -78,7 +79,7 @@ const Bookings = () => {
     }
 
     try {
-      await axios.delete('https://travel-app-l3x3.onrender.com/api/bookings/user', {
+      await axios.delete(`${BACKEND_URL}/api/bookings/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings([]);
@@ -88,7 +89,7 @@ const Bookings = () => {
       if (err.response?.status === 403 && err.response?.data?.message.includes('Token expired')) {
         try {
           token = await refreshAccessToken();
-          await axios.delete('https://travel-app-l3x3.onrender.com/api/bookings/user', {
+          await axios.delete(`${BACKEND_URL}/api/bookings/user`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           setBookings([]);
