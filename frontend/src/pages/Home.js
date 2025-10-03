@@ -12,6 +12,7 @@ const Home = ({ handleLogout }) => {
   const [error, setError] = useState(null);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const navigate = useNavigate();
+  const BACKEND_URL = 'https://travel-app-bv82.onrender.com'; // ✅ Updated backend URL
 
   const fetchPackages = useCallback(async () => {
     try {
@@ -21,7 +22,7 @@ const Home = ({ handleLogout }) => {
         navigate('/auth');
         return;
       }
-      const res = await fetch('https://travel-app-l3x3.onrender.com/api/auth/packages', {
+      const res = await fetch(`${BACKEND_URL}/api/auth/packages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
@@ -32,7 +33,7 @@ const Home = ({ handleLogout }) => {
       setError(`Failed to fetch packages: ${err.message}`);
       console.error('Fetch error:', err);
     }
-  }, [navigate]);
+  }, [navigate, BACKEND_URL]);
 
   useEffect(() => {
     fetchPackages();
@@ -63,7 +64,7 @@ const Home = ({ handleLogout }) => {
         <div className='home-content'>
           <h3 className='name'>TRIPTALES</h3>
           <h1 className='tagline'>EVERY JOURNEY HAS A STORY</h1>
-          <br></br>
+          <br />
           <div className='textdiv'>
             <span className='smalltext' style={{ color: 'black' }}>Our Packages :</span>
             <h1 className='hometitle'>Search Your Holidays...</h1>
