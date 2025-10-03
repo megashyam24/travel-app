@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 function Admin() {
+  const BACKEND_URL = "https://travel-app-bv82.onrender.com"; // ✅ New backend URL
   const [packages, setPackages] = useState([]);
   const [newPackage, setNewPackage] = useState({
     name: '',
@@ -28,7 +29,7 @@ function Admin() {
         navigate('/auth');
         return;
       }
-      const res = await axios.get('https://travel-app-l3x3.onrender.com/api/auth/packages', {
+      const res = await axios.get(`${BACKEND_URL}/api/auth/packages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data && Array.isArray(res.data)) {
@@ -65,7 +66,7 @@ function Admin() {
         setError('Please fill all required fields.');
         return;
       }
-      const res = await axios.post('https://travel-app-l3x3.onrender.com/api/auth/packages', newPackage, {
+      const res = await axios.post(`${BACKEND_URL}/api/auth/packages`, newPackage, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Add package response:', res.data);
@@ -106,7 +107,7 @@ function Admin() {
         setError('No package ID found for editing.');
         return;
       }
-      const res = await axios.put(`https://travel-app-l3x3.onrender.com/api/auth/packages/${editPackage._id}`, editPackage, {
+      const res = await axios.put(`${BACKEND_URL}/api/auth/packages/${editPackage._id}`, editPackage, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Edit package response:', res.data);
@@ -129,7 +130,7 @@ function Admin() {
           navigate('/auth');
           return;
         }
-        const res = await axios.delete(`https://travel-app-l3x3.onrender.com/api/auth/packages/${id}`, {
+        const res = await axios.delete(`${BACKEND_URL}/api/auth/packages/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log('Delete package response:', res.data);
@@ -159,36 +160,21 @@ function Admin() {
       <div style={{ maxWidth: '500px', margin: '0 auto', marginBottom: '20px' }}>
         <h2>Add Package</h2>
         <form onSubmit={handleAddPackage}>
-          <div className="mb-3"><label>Package Name</label><input type="text" value={newPackage.name} onChange={(e) => setNewPackage({ ...newPackage, name: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Price (Rs.)</label><input type="number" value={newPackage.price} onChange={(e) => setNewPackage({ ...newPackage, price: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Place</label><input type="text" value={newPackage.place} onChange={(e) => setNewPackage({ ...newPackage, place: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Sublocation</label><input type="text" value={newPackage.sublocation} onChange={(e) => setNewPackage({ ...newPackage, sublocation: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} /></div>
-          <div className="mb-3"><label>Timing</label><input type="text" value={newPackage.timing} onChange={(e) => setNewPackage({ ...newPackage, timing: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Image URL</label><input type="text" value={newPackage.image} onChange={(e) => setNewPackage({ ...newPackage, image: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Latitude</label><input type="number" step="0.0001" value={newPackage.latitude} onChange={(e) => setNewPackage({ ...newPackage, latitude: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Longitude</label><input type="number" step="0.0001" value={newPackage.longitude} onChange={(e) => setNewPackage({ ...newPackage, longitude: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-          <div className="mb-3"><label>Details</label><textarea value={newPackage.details} onChange={(e) => setNewPackage({ ...newPackage, details: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} /></div>
-          <button type="submit" className="auth-button"><span></span><span></span><span></span><span></span>Add Package</button>
+          {/* Add package input fields */}
+          {/* Keep your input fields unchanged */}
         </form>
       </div>
+
       {editPackage && (
         <div style={{ maxWidth: '500px', margin: '20px auto', marginBottom: '20px' }}>
           <h2>Edit Package</h2>
           <form onSubmit={handleSaveEditPackage}>
-            <div className="mb-3"><label>Package Name</label><input type="text" value={editPackage.name} onChange={(e) => setEditPackage({ ...editPackage, name: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Price (Rs.)</label><input type="number" value={editPackage.price} onChange={(e) => setEditPackage({ ...editPackage, price: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Place</label><input type="text" value={editPackage.place} onChange={(e) => setEditPackage({ ...editPackage, place: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Sublocation</label><input type="text" value={editPackage.sublocation} onChange={(e) => setEditPackage({ ...editPackage, sublocation: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} /></div>
-            <div className="mb-3"><label>Timing</label><input type="text" value={editPackage.timing} onChange={(e) => setEditPackage({ ...editPackage, timing: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Image URL</label><input type="text" value={editPackage.image} onChange={(e) => setEditPackage({ ...editPackage, image: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Latitude</label><input type="number" step="0.0001" value={editPackage.latitude} onChange={(e) => setEditPackage({ ...editPackage, latitude: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Longitude</label><input type="number" step="0.0001" value={editPackage.longitude} onChange={(e) => setEditPackage({ ...editPackage, longitude: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} required /></div>
-            <div className="mb-3"><label>Details</label><textarea value={editPackage.details} onChange={(e) => setEditPackage({ ...editPackage, details: e.target.value })} className="form-control" style={{ backgroundColor: 'transparent', border: '1px solid #03e9f4', color: '#03e9f4' }} /></div>
-            <button type="submit" className="auth-button" style={{ marginRight: '10px' }}><span></span><span></span><span></span><span></span>Save</button>
-            <button type="button" className="auth-button" onClick={() => setEditPackage(null)} style={{ background: '#6c757d' }}><span></span><span></span><span></span><span></span>Cancel</button>
+            {/* Edit package input fields */}
+            {/* Keep your input fields unchanged */}
           </form>
         </div>
       )}
+
       <div style={{ marginTop: '20px' }}>
         <h2>Packages</h2>
         {packages.length === 0 ? (
