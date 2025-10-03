@@ -15,6 +15,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
   const [travelDate, setTravelDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
   const navigate = useNavigate();
+  const BACKEND_URL = "https://travel-app-bv82.onrender.com"; // ✅ Updated backend URL
 
   const handleClose = () => {
     setShow(false);
@@ -55,7 +56,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
       throw new Error('No refresh token found. Please log in again.');
     }
     try {
-      const response = await axios.post('https://travel-app-l3x3.onrender.com/api/auth/refresh', { refreshToken });
+      const response = await axios.post(`${BACKEND_URL}/api/auth/refresh`, { refreshToken });
       const newToken = response.data.token;
       localStorage.setItem('token', newToken);
       console.log('New access token obtained:', newToken.substring(0, 10) + '...');
@@ -78,7 +79,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
     }
 
     try {
-      const response = await axios.post('https://travel-app-l3x3.onrender.com/api/bookings', { 
+      const response = await axios.post(`${BACKEND_URL}/api/bookings`, { 
         packageId,
         travelDate,
         returnDate 
@@ -93,7 +94,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
       if (err.response?.status === 403 && err.response?.data?.message.includes('Token expired')) {
         try {
           token = await refreshAccessToken();
-          const retryResponse = await axios.post('https://travel-app-l3x3.onrender.com/api/bookings', { 
+          const retryResponse = await axios.post(`${BACKEND_URL}/api/bookings`, { 
             packageId,
             travelDate,
             returnDate 
@@ -117,7 +118,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
 
   const fetchPackages = useCallback(async () => {
     try {
-      const res = await axios.get('https://travel-app-l3x3.onrender.com/api/auth/packages');
+      const res = await axios.get(`${BACKEND_URL}/api/auth/packages`);
       if (res.data && Array.isArray(res.data)) {
         const southIndiaPackages = res.data.filter(pkg =>
           pkg.place.toLowerCase().includes('south') ||
@@ -212,7 +213,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
                     id="travelDate"
                     value={travelDate}
                     onChange={(e) => setTravelDate(e.target.value)}
-                    min={new Date().toISOString().split('T')[0]} // Prevent past dates
+                    min={new Date().toISOString().split('T')[0]}
                     required
                   />
                 </div>
@@ -223,7 +224,7 @@ const ExploreSouthIndia = ({ handleLogout }) => {
                     id="returnDate"
                     value={returnDate}
                     onChange={(e) => setReturnDate(e.target.value)}
-                    min={travelDate || new Date().toISOString().split('T')[0]} // Prevent past or invalid return dates
+                    min={travelDate || new Date().toISOString().split('T')[0]}
                     required
                   />
                 </div>
